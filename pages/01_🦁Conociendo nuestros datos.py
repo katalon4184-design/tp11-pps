@@ -10,14 +10,14 @@ with st.expander("¿Cuántas Filas y columas hay en el archivo?"):
     filas, colum = feli.shape
     st.write(f'Tiene {filas} filas y {colum} columnas')
 
+with st.expander("¿Cuántas especies diferentes hay registradas en el archivo?"):
+    cant = feli["species"].nunique()
+    st.write(f'Tiene {cant} especies diferentes.')
+
 with st.expander("¿cuales son los nombres de las columnas?"):
     colum2 = feli.columns
     st.write("los nombres de las columnas que tenemos son:")
     st.write(colum2)
-
-with st.expander("¿Cuántas especies diferentes hay registradas en el archivo?"):
-    cant = feli["species"].nunique()
-    st.write(f'Tiene {cant} especies diferentes.')
 
 with st.expander("Valores nulos en el dataset"):
     M =feli.isnull().sum()

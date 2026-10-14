@@ -20,5 +20,31 @@ fig = px.line(
     markers=True
 )
 
+#Grafico de barra
+meses = feli["month"].value_counts().sort_index()
+
+fig2 = px.bar(
+    x=meses.index,
+    y=meses.values,
+    title="Cantidad de avistamientos por mes",
+    labels={"x": "Mes", "y": "Cantidad de avistamientos"}
+)
+
+##torta
+
+meses = feli["month"].value_counts().sort_index()
+
+porcentajes = meses / meses.sum() * 100
+
+fig3 = px.pie(
+    values=meses.values,
+    names=meses.index,
+    title="Porcentaje de avistamientos por mes"
+)
+
+
 # Mostrar el gráfico
+
 st.plotly_chart(fig)
+st.plotly_chart(fig2)
+st.plotly_chart(fig3)

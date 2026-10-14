@@ -1,51 +1,92 @@
+
 import folium
 import streamlit as st
-from streamlit_folium import folium_static, st_folium
 import pandas as pd
+from streamlit_folium import st_folium
+
+
+#no tocar
 
 def generar_mapa():
     attr = (
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> '
-        'contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
+        'contributors'
     )
-    
-    tiles = 'https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capabaseargenmap@EPSG%3A3857@png/{z}/{x}/{-y}.png'
+
     m = folium.Map(
-        location=(-33.457606, -65.346857),
+        location=(-38.4161, -63.6167),
         control_scale=True,
-        zoom_start=5,
-        name='es',
-        tiles=tiles,
-        attr=attr
+        zoom_start=4,
+        tiles="OpenStreetMap"
     )
+
     return m
 
 
-lagos = pd.read_csv('lagos_arg.csv')
-st.title("Mapa")
-mapa = generar_mapa()
+# Cargar el dataset
+feli = pd.read_csv("felinos_filtrado.csv")
 
-def agregar_marca_aerop(row):
-    
-    #st.write(color)
+st.title("Mapa de felinos de Argentina")
+
+# Limpiar registros sin coordenadas
+# dropna() elimina las filas que tienen valores vacíos.
+# subset=["lat", "lng"] indica que solamente queremos eliminar filas que tengan vacía la latitud o la longitud.
+# .copy() crea una copia independiente de los datos filtrados.
+
+feli = feli.dropna(subset=["lat", "lng"]).copy()
+
+# Obtener las especies disponibles
+especies = sorted(feli["species"].dropna().unique())
+
+# Crear el selector
+opciones = ["Todas las especies"] + especies
+
+especie_seleccionada = st.selectbox(
+    "Seleccioná una especie de felino:",
+    opciones
+)
+
+# Filtrar según la selección
+
+if especie_seleccionada == "Todas las especies":
+    felinos_mostrar = feli
+else:
+    felinos_mostrar = feli[
+        feli["species"] == especie_seleccionada
+    ]
+
+# Crear el mapas
+mapa_felinos = generar_mapa()
+
+# Agregar los marcadores
+for _, row in felinos_mostrar.iterrows():
     folium.Marker(
-        [row['lat'], row['lng']],
-        popup=row['Nombre'],
-        icon=folium.Icon()
-        ).add_to(mapa)
+        location=[row["lat"], row["lng"]],
+        popup=f"Especie: {row['species']}",
+        tooltip=row["species"],
+        icon=folium.Icon(
+            color="blue",
+            icon="paw",
+            prefix="fa"
+        )
+    ).add_to(mapa_felinos)
 
-ac1,ac2 = st.columns([0.3, 0.7])
-r_areas = ac1.checkbox("Grandes")
-if r_areas:
-    a_larg = lagos[lagos['Sup Tamaño']=='grande']
-    a_larg.apply(agregar_marca_aerop, axis=1)
-r_parques = ac1.checkbox("Medianos")
-if r_parques:
-    a_med = lagos[lagos['Sup Tamaño']=='medio']
-    a_med.apply(agregar_marca_aerop, axis=1)
-r_monu = ac1.checkbox("Pequeños")
-if r_monu:
-    a_small = lagos[lagos['Sup Tamaño']=='chico']
-    a_small.apply(agregar_marca_aerop, axis=1)
-with ac2:
-    st_folium(mapa, key='lagos')
+# Mostrar cantidad de registros
+st.write(
+    "Ubicaciones mostradas:",
+    len(felinos_mostrar)
+)
+
+# Mostrar el mapa
+st_folium(
+    mapa_felinos,
+    width=900,
+    height=600,
+    key="mapa_felinos"
+)
+
+st.write("Especies encontradas:")
+st.write(feli["species"].value_counts())
+
+st.write("Columnas del dataset:")
+st.write(feli.columns.tolist())
