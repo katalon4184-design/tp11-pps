@@ -43,8 +43,31 @@ fig3 = px.pie(
 )
 
 
+anio_actual = feli["year"].max()
+feli_actual = feli[feli["year"] == anio_actual]
+meses_actual = feli_actual["month"].value_counts().sort_index()
+
+fig4 = px.line(
+    x=meses_actual.index,
+    y=meses_actual.values,
+    title=f"Avistamientos por mes en {anio_actual}",
+    labels={"x": "Mes", "y": "Cantidad de avistamientos"},
+    markers=True
+)
+
+provincias = feli["stateProvince"].value_counts()
+
+fig5 = px.bar(
+    x=provincias.index,
+    y=provincias.values,
+    title="Cantidad de avistamientos por provincia",
+    labels={"x": "Provincia", "y": "Cantidad de avistamientos"}
+)
+
 # Mostrar el gráfico
 
 st.plotly_chart(fig)
+st.plotly_chart(fig4)
 st.plotly_chart(fig2)
+st.plotly_chart(fig5)
 st.plotly_chart(fig3)

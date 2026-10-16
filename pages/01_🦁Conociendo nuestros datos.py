@@ -3,12 +3,16 @@ import streamlit as st
 
 feli =  pd.read_csv('felinos_filtrado.csv')
 
-st.title("Parte 1")
-st.header("Datos que encontrados")
+st.title("Datos De Los Registros De Felinos")
+st.header("Informacion:")
 
 with st.expander("¿Cuántas Filas y columas hay en el archivo?"):
     filas, colum = feli.shape
     st.write(f'Tiene {filas} filas y {colum} columnas')
+    
+with st.expander("Año mas antiguo y mas actual"):    
+    st.write("Registro más antiguo:", feli["year"].min())
+    st.write("Registro más actual:", feli["year"].max())
 
 with st.expander("¿Cuántas especies diferentes hay registradas en el archivo?"):
     cant = feli["species"].nunique()
