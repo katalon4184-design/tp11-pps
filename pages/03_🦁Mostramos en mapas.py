@@ -1,4 +1,3 @@
-
 import folium
 import streamlit as st
 import pandas as pd
@@ -8,16 +7,21 @@ from streamlit_folium import st_folium
 #no tocar
 
 def generar_mapa():
+
     attr = (
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> '
-        'contributors'
+        'contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
     )
 
+    tiles = 'https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capabaseargenmap@EPSG%3A3857@png/{z}/{x}/{-y}.png'
+
     m = folium.Map(
-        location=(-38.4161, -63.6167),
+        location=(-33.457606, -65.346857),
         control_scale=True,
-        zoom_start=4,
-        tiles="OpenStreetMap"
+        zoom_start=5,
+        name='es',
+        tiles=tiles,
+        attr=attr
     )
 
     return m
@@ -28,10 +32,12 @@ feli = pd.read_csv("felinos_filtrado.csv")
 
 st.title("Mapa de felinos de Argentina")
 
+# ============================================================
 # Limpiar registros sin coordenadas
 # dropna() elimina las filas que tienen valores vacíos.
 # subset=["lat", "lng"] indica que solamente queremos eliminar filas que tengan vacía la latitud o la longitud.
 # .copy() crea una copia independiente de los datos filtrados.
+# ============================================================
 
 feli = feli.dropna(subset=["lat", "lng"]).copy()
 
@@ -87,6 +93,3 @@ st_folium(
 
 st.write("Especies encontradas:")
 st.write(feli["species"].value_counts())
-
-st.write("Columnas del dataset:")
-st.write(feli.columns.tolist())
