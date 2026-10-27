@@ -3,7 +3,6 @@ import streamlit as st
 import pandas as pd
 from streamlit_folium import st_folium
 
-
 #no tocar
 
 def generar_mapa():
@@ -31,6 +30,9 @@ def generar_mapa():
 feli = pd.read_csv("felinos_filtrado.csv")
 
 st.title("Mapa de felinos de Argentina")
+st.header(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .")
+st.image("images/M.png", use_container_width=True)
+
 
 # ============================================================
 # Limpiar registros sin coordenadas
@@ -93,3 +95,6 @@ st_folium(
 
 st.write("Especies encontradas:")
 st.write(feli["species"].value_counts())
+
+st.header(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .")
+st.image("images/Felino4.png", use_container_width=True)

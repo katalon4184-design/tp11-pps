@@ -5,6 +5,8 @@ st.image("images/banner.png", use_container_width=True)
 st.title("Análisis de datos de felinos de Argentina 🐆")
 st.subheader("Con Python 🐍 y un dataset de registros de felinos 🌿")
 
+st.header(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .")
+
 st.write(
     """
     Argentina cuenta con distintas especies de felinos que viven en zonas variadas,

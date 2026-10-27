@@ -1,7 +1,11 @@
 import streamlit as st
 
-st.set_page_config(page_title="Juego de Preguntas", page_icon="🎮")
-st.title("🎮 Juego de Preguntas 🎮")
+st.set_page_config(page_title="Juego de Preguntas", page_icon="🎮🌿")
+st.title("🌿🎮 Juego de Preguntas 🎮🌿")
+
+st.header(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .")
+
+st.image("images/T.png", use_container_width=True)
 
 # ============================================================
 # Definimos las preguntas
@@ -28,7 +32,7 @@ preguntas = [
 # Una pregunta por bloque, con su propio botón de verificar
 # ============================================================
 for i, p in enumerate(preguntas):
-    st.subheader(f"Pregunta {i + 1}")
+    st.subheader(f"• Pregunta {i + 1} •")
     st.write(p["pregunta"])
 
     # El radio guarda la elección del estudiante
@@ -51,4 +55,6 @@ for i, p in enumerate(preguntas):
             st.error(f"❌ Incorrecto. ¡No te preocupes vuelve a intentarlo!")
 
     st.divider()
+    st.header(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .")
     
+st.image("images/Felino2.png", use_container_width=True)

@@ -5,7 +5,11 @@ import plotly.express as px
 # Cargar el dataset
 feli = pd.read_csv("felinos_filtrado.csv")
 
-st.title("Gráficos de avistamientos")
+st.title("🌿Gráficos De Avistamientos🌿")
+st.write("Los gráficos nos permiten representar los datos de una forma visual y fácil de entender. El gráfico de barras sirve para comparar cantidades, el gráfico de torta para mostrar porcentajes y el gráfico de líneas para observar cómo cambian los datos a lo largo del tiempo. Gracias a ellos, podemos analizar la información y comprender mejor los resultados.")
+st.image("images/H.png", use_container_width=True)
+st.header(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .")
+
 
 # Avistamientos por mes durante 2010
 feli_2010 = feli[feli["year"] == 2010]
@@ -68,15 +72,21 @@ fig5 = px.bar(
 
 st.plotly_chart(fig, use_container_width=True)
 st.caption("Este gráfico de líneas muestra cómo variaron los avistamientos durante los meses de 2010 y permite comparar los registros de cada mes.")
+st.header(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .")
 
 st.plotly_chart(fig4, use_container_width=True)
 st.caption(f"Este gráfico muestra los avistamientos de cada mes del año más reciente disponible en el dataset ({anio_actual}), para observar cómo se distribuyeron durante ese año.")
+st.header(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .")
 
 st.plotly_chart(fig2, use_container_width=True)
 st.caption("Este gráfico de barras compara la cantidad total de avistamientos registrados en cada mes, considerando todos los años incluidos en el dataset.")
+st.header(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .")
 
 st.plotly_chart(fig5, use_container_width=True)
 st.caption("Este gráfico compara los registros entre provincias y permite identificar en cuáles se concentró la mayor cantidad de avistamientos.")
+st.header(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .")
 
 st.plotly_chart(fig3, use_container_width=True)
 st.caption("Este gráfico circular representa qué porcentaje del total de avistamientos corresponde a cada mes. Así se pueden comparar las proporciones mensuales.")
+st.header(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .")
+st.image("images/Felino3.png", use_container_width=True)
