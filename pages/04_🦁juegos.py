@@ -1,5 +1,13 @@
 import streamlit as st
 
+st.markdown("""
+    <style>
+    .stApp {
+        background-color: #0B0B0B;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
 st.set_page_config(page_title="Juego de Preguntas", page_icon="🎮🌿")
 st.title("🌿🎮 Juego de Preguntas 🎮🌿")
 

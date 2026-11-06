@@ -2,6 +2,14 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
+st.markdown("""
+    <style>
+    .stApp {
+        background-color: #0B0B0B;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
 # Cargar el dataset
 feli = pd.read_csv("felinos_filtrado.csv")
 
@@ -14,14 +22,32 @@ st.header(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 # Avistamientos por mes durante 2010
 feli_2010 = feli[feli["year"] == 2010]
 meses_2010 = feli_2010["month"].value_counts().sort_index()
+#.value_counts(): cuenta cuántas veces aparece cada valor.
+#.sort_index(): ordena los resultados según su índice, generalmente de menor a mayor si son números.
+
 
 fig = px.line(
     x=meses_2010.index,
     y=meses_2010.values,
-    title="Cantidad de avistamientos por mes en 2010",
+    title=" • Cantidad de avistamientos por mes en 2010",
     labels={"x": "Mes", "y": "Cantidad de avistamientos"},
     markers=True
 )
+
+fig.update_xaxes(
+    tickmode="array",
+    tickvals=list(meses_2010.index),
+    ticktext=[
+        "Enero", "Febrero", "Marzo", "Abril",
+        "Mayo", "Junio", "Julio", "Agosto",
+        "Septiembre", "Octubre", "Noviembre", "Diciembre"
+    ]
+)
+
+#tickmode="array": permite indicar qué etiquetas mostrar.
+#tickvals: indica la posición de cada mes.
+#ticktext: coloca los nombres de los meses debajo del gráfico.
+
 
 # Avistamientos por mes en todo el dataset
 meses = feli["month"].value_counts().sort_index()
@@ -29,9 +55,20 @@ meses = feli["month"].value_counts().sort_index()
 fig2 = px.bar(
     x=meses.index,
     y=meses.values,
-    title="Cantidad de avistamientos por mes",
+    title=" • Cantidad de avistamientos por mes",
     labels={"x": "Mes", "y": "Cantidad de avistamientos"}
 )
+
+fig2.update_xaxes(
+    tickmode="array",
+    tickvals=list(meses.index),
+    ticktext=[
+            "Enero", "Febrero", "Marzo", "Abril",
+            "Mayo", "Junio", "Julio", "Agosto",
+            "Septiembre", "Octubre", "Noviembre", "Diciembre"
+        ]
+)
+
 
 nombres_meses = {
     1: "Enero", 2: "Febrero", 3: "Marzo", 4: "Abril",
@@ -44,21 +81,37 @@ porcentajes = meses / meses.sum() * 100
 fig3 = px.pie(
     values=meses.values,
     names=meses.index.map(nombres_meses),
-    title="Porcentaje de avistamientos por mes"
+    title=" • Porcentaje de avistamientos por mes"
 )
 
 # Avistamientos por mes en el año más reciente del dataset
-anio_actual = feli["year"].max()
+anio_actual = int(feli["year"].max())
 feli_actual = feli[feli["year"] == anio_actual]
 meses_actual = feli_actual["month"].value_counts().sort_index()
 
 fig4 = px.line(
     x=meses_actual.index,
     y=meses_actual.values,
-    title=f"Avistamientos por mes en {anio_actual}",
+    title=f" • Avistamientos por mes en {anio_actual}",
     labels={"x": "Mes", "y": "Cantidad de avistamientos"},
     markers=True
 )
+
+fig4.update_xaxes(
+    tickmode="array",
+    tickvals=list(meses_actual.index),
+    ticktext=[
+            "Enero", "Febrero", "Marzo", "Abril",
+            "Mayo", "Junio", "Julio", "Agosto",
+            "Septiembre", "Octubre", "Noviembre", "Diciembre"
+        ]
+)
+#julio es el ultimo mes del que tenemos algun registro de el año mas actual.
+
+#tickmode="array": permite indicar qué etiquetas mostrar.
+#tickvals: indica la posición de cada mes.
+#ticktext: coloca los nombres de los meses debajo del gráfico.
+
 
 # Avistamientos por provincia
 provincias = feli["stateProvince"].value_counts()
@@ -66,7 +119,7 @@ provincias = feli["stateProvince"].value_counts()
 fig5 = px.bar(
     x=provincias.index,
     y=provincias.values,
-    title="Cantidad de avistamientos por provincia",
+    title=" • Cantidad de avistamientos por provincia",
     labels={"x": "Provincia", "y": "Cantidad de avistamientos"}
 )
 

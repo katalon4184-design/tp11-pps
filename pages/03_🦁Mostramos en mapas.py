@@ -3,6 +3,14 @@ import streamlit as st
 import pandas as pd
 from streamlit_folium import st_folium
 
+st.markdown("""
+    <style>
+    .stApp {
+        background-color: #0B0B0B;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
 #no tocar
 
 def generar_mapa():
@@ -42,9 +50,15 @@ st.image("images/M.png", use_container_width=True)
 # ============================================================
 
 feli = feli.dropna(subset=["lat", "lng"]).copy()
+#dropna(subset=["lat", "lng"]): elimina los registros que no tienen latitud o longitud.
+#.copy(): crea una copia de los datos filtrados.
 
 # Obtener las especies disponibles
 especies = sorted(feli["species"].dropna().unique())
+
+#dropna(): elimina los valores vacíos.
+#unique(): obtiene las especies sin repetir.
+#sorted(): ordena las especies alfabéticamente.
 
 # Crear el selector
 opciones = ["Todas las especies"] + especies
@@ -73,7 +87,7 @@ for _, row in felinos_mostrar.iterrows():
         popup=f"Especie: {row['species']}",
         tooltip=row["species"],
         icon=folium.Icon(
-            color="blue",
+            color="green",
             icon="paw",
             prefix="fa"
         )
